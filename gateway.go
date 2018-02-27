@@ -10,12 +10,19 @@ import (
 	"sync"
 )
 
+// DebugLogger will be used to log debug messages when provided to a JavaGateway instance
+type DebugLogger interface {
+	Printf(string, ...interface{})
+}
+
 // JavaGateway reperesents a client connection to the java gateway
 type JavaGateway struct {
 	connection     io.ReadWriteCloser
 	bufferedReader *bufio.Reader
 	mutex          sync.Mutex
 	jvmID          string
+
+	DebugLogger DebugLogger
 }
 
 // NewGatewayFromConnection returns a gateway client instance using a provided connection
